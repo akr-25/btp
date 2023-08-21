@@ -52,7 +52,9 @@ for i in range(1, 71):
         stock_name = stock_name.replace(' ', '-')
         stock_name = stock_name.replace('&', 'and')
         stock_name = stock_name.replace('.', '')
-        while(True):
+        stock_name = stock_name.replace("'", '')
+        i=0
+        while(i<1000):
             res = requests.get(f"https://www.csrhub.com/CSR_and_sustainability_information/{stock_name}")
             soup = BeautifulSoup(res.text, 'html.parser')
 
@@ -72,7 +74,9 @@ for i in range(1, 71):
             
             time.sleep(10)
             print('Retrying', stock_name)
-
+            i+=1
+        if i==1000:
+            continue
         scripts = s.find_all('script')
         script_data = scripts[0].text.strip()
         m = re.search(r'small_chart_ratio_history_company = \[.*\];', script_data)
@@ -115,6 +119,6 @@ for i in range(1, 71):
                 parsed_data['industry'] = value
             
         parsed.append(parsed_data)
-
-with open('data.txt', 'w') as f:
-    f.write(json.dumps(parsed, indent=4, sort_keys=True))
+        
+    with open('data.txt', 'w') as f:
+        f.write(json.dumps(parsed, indent=4, sort_keys=True))
