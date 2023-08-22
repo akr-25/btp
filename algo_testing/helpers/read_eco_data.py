@@ -1,5 +1,4 @@
 import pandas as pd
-from datetime import datetime
 
 def conv_to_datetime(series):
     for lst in series:
@@ -39,7 +38,7 @@ def get_score(new_df):
     new_df['eco_score'] = diff_array
 
 def preprocess(filepath): 
-    df = pd.read_json('./data.json')
+    df = pd.read_json(filepath)
 
     conv_to_datetime(df['esg'])
     conv_to_datetime(df['esg_industry'])
@@ -56,3 +55,4 @@ def preprocess(filepath):
     new_df.drop(['index', 'esg', 'esg_industry', 'industry', 'name'], axis = 1, inplace = True)
 
     return new_df
+
