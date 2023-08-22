@@ -38,7 +38,7 @@ headers = {
 
 parsed = []
 
-for i in range(1, 71):
+for i in range(58, 71):
     params = {
         'page': str(i),
     }
@@ -53,6 +53,9 @@ for i in range(1, 71):
         stock_name = stock_name.replace('&', 'and')
         stock_name = stock_name.replace('.', '')
         stock_name = stock_name.replace("'", '')
+        stock_name = stock_name.replace(",", '')
+        stock_name = stock_name.replace("/", '')
+
         i=0
         while(i<1000):
             res = requests.get(f"https://www.csrhub.com/CSR_and_sustainability_information/{stock_name}")
@@ -119,6 +122,6 @@ for i in range(1, 71):
                 parsed_data['industry'] = value
             
         parsed.append(parsed_data)
-        
+
     with open('data.txt', 'w') as f:
         f.write(json.dumps(parsed, indent=4, sort_keys=True))
